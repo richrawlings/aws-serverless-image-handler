@@ -1,0 +1,41 @@
+{
+  "name": "rebellionagency/craft-aws-serverless-image-handler",
+  "description": "Integrates the AWS Serverless Image Handler CDN platform into Craft CMS.",
+  "type": "craft-plugin",
+  "version": "1.0.0",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "aws",
+    "serverless",
+    "cdn",
+    "images",
+    "assets"
+  ],
+  "support": {
+    "docs": "https://rebellion.agency/craft-cms/plugins/serverless-image-handler/docs",
+    "issues": "https://github.com/rebellionagency/craft-serverless-image-handler/issues"
+  },
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Rebellion Software",
+      "homepage": "https://rebellion.agency/craft-cms"
+    }
+  ],
+  "require": {
+    "craftcms/cms": "^4.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "rebellionagency\\serverlessimagehandler\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "AWS Serverless Image Handler",
+    "handle": "aws-serverless-image-handler",
+    "class": "Plugin"
+  }
+}
