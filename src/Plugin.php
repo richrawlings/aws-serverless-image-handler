@@ -16,12 +16,16 @@
  * @copyright Copyright (c) 2024 Rebellion Software
  */
 
-namespace rebellionagency\serverlessimagehandler;
+namespace rebellionagency\awsserverlessimagehandler;
 
-/**
- * Class ServerlessImageHandler
- * @since 1.0.0
- */
+use Craft;
+use craft\base\Model;
+use craft\helpers\UrlHelper;
+use craft\web\UrlManager;
+use craft\events\RegisterUrlRulesEvent;
+use craft\base\Event;
+use rebellionagency\awsserverlessimagehandler\models\Settings;
+
 class Plugin extends \craft\base\Plugin
 {
     public bool $hasCpSettings = true;
@@ -34,8 +38,57 @@ class Plugin extends \craft\base\Plugin
 
             parent::init();
 
+            Event::on(
+                UrlManager::class,
+                UrlManager::EVENT_REGISTER_CP_URL_RULES,
+                function (RegisterUrlRulesEvent $event) {
+
+                    $event->rules['settings/assets/aws-serverless-image-handler'] = 'aws-serverless-image-handler/transforms/index';
+
+//                    $event->rules['widgets/new'] = 'my-plugin/widgets/edit';
+//                    $event->rules['widgets/edit/<id:\d+>'] = 'my-plugin/widgets/edit';
+
+                }
+            );
+
+            Craft::$app->getView()->hook('cp.settings.assets.nav', function (array &$context) {
+                $context['navItems'] = [
+                    'volumes' => [
+                        'label' => 'Volumes',
+                        'url' => UrlHelper::cpUrl('settings/assets')
+                    ],
+                    'transforms' => [
+                        'label' => 'Transforms',
+                        'url' => UrlHelper::cpUrl('settings/assets/transforms')
+                    ],
+                    'aws-serverless-image-handler' => [
+                        'label' => 'Serverless Image Handler',
+                        'url' => UrlHelper::cpUrl('settings/assets/aws-serverless-image-handler'),
+                    ],
+                    'settings' => [
+                        'label' => 'Settings',
+                        'url' => UrlHelper::cpUrl('settings/assets/settings')
+                    ],
+                ];
+
+                // Return template *output*
+//                return '<p>Hey!</p>';
+            });
 
 
         });
+    }
+
+    protected function createSettingsModel(): ?Model
+    {
+        return new Settings();
+    }
+
+    protected function settingsHtml(): ?string
+    {
+        return \Craft::$app->getView()->renderTemplate(
+            'aws-serverless-image-handler/settings',
+            ['settings' => $this->getSettings()]
+        );
     }
 }

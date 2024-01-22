@@ -1,0 +1,9 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.autosuggestField({
+    first: true,
+    label: 'CloudFront Distribution ID',
+    name: 'cloudFrontDistributionId',
+    value: settings.cloudFrontDistributionId,
+    suggestEnvVars: true
+}) }}
