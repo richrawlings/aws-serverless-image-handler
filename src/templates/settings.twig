@@ -2,8 +2,22 @@
 
 {{ forms.autosuggestField({
     first: true,
+    label: 'S3 Bucket',
+    name: 's3Bucket',
+    value: settings.s3Bucket,
+    suggestEnvVars: true
+}) }}
+
+{{ forms.autosuggestField({
     label: 'CloudFront Distribution ID',
     name: 'cloudFrontDistributionId',
     value: settings.cloudFrontDistributionId,
+    suggestEnvVars: true
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'CloudFront Domain',
+    name: 'cloudFrontDomain',
+    value: settings.cloudFrontDomain,
     suggestEnvVars: true
 }) }}

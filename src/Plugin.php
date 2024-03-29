@@ -20,16 +20,15 @@ namespace rebellionagency\awsserverlessimagehandler;
 
 use Craft;
 use craft\base\Model;
-use craft\helpers\UrlHelper;
-use craft\web\UrlManager;
-use craft\events\RegisterUrlRulesEvent;
-use craft\base\Event;
+use craft\web\twig\variables\CraftVariable;
 use rebellionagency\awsserverlessimagehandler\models\Settings;
+use rebellionagency\awsserverlessimagehandler\services\ImageHandlerService;
+use rebellionagency\awsserverlessimagehandler\twig\ImageHandlerExtension;
+use yii\base\Event;
 
 class Plugin extends \craft\base\Plugin
 {
     public bool $hasCpSettings = true;
-
     public string $schemaVersion = '2.1.0';
 
     public function init(): void
@@ -38,43 +37,21 @@ class Plugin extends \craft\base\Plugin
 
             parent::init();
 
+            $this->setComponents([
+                'awsServerlessImageHandler' => ImageHandlerService::class,
+            ]);
+
+            $extension = new ImageHandlerExtension();
+            Craft::$app->getView()->registerTwigExtension($extension);
+
             Event::on(
-                UrlManager::class,
-                UrlManager::EVENT_REGISTER_CP_URL_RULES,
-                function (RegisterUrlRulesEvent $event) {
-
-                    $event->rules['settings/assets/aws-serverless-image-handler'] = 'aws-serverless-image-handler/transforms/index';
-
-//                    $event->rules['widgets/new'] = 'my-plugin/widgets/edit';
-//                    $event->rules['widgets/edit/<id:\d+>'] = 'my-plugin/widgets/edit';
-
+                CraftVariable::class,
+                CraftVariable::EVENT_INIT,
+                function (Event $e) {
+                    $variable = $e->sender;
+                    $variable->set('awsServerlessImageHandler', ImageHandlerService::class);
                 }
             );
-
-            Craft::$app->getView()->hook('cp.settings.assets.nav', function (array &$context) {
-                $context['navItems'] = [
-                    'volumes' => [
-                        'label' => 'Volumes',
-                        'url' => UrlHelper::cpUrl('settings/assets')
-                    ],
-                    'transforms' => [
-                        'label' => 'Transforms',
-                        'url' => UrlHelper::cpUrl('settings/assets/transforms')
-                    ],
-                    'aws-serverless-image-handler' => [
-                        'label' => 'Serverless Image Handler',
-                        'url' => UrlHelper::cpUrl('settings/assets/aws-serverless-image-handler'),
-                    ],
-                    'settings' => [
-                        'label' => 'Settings',
-                        'url' => UrlHelper::cpUrl('settings/assets/settings')
-                    ],
-                ];
-
-                // Return template *output*
-//                return '<p>Hey!</p>';
-            });
-
 
         });
     }
@@ -90,5 +67,14 @@ class Plugin extends \craft\base\Plugin
             'aws-serverless-image-handler/settings',
             ['settings' => $this->getSettings()]
         );
+    }
+
+    public static function config(): array
+    {
+        return [
+            'components' => [
+                'awsserverlessimagehandler' => ['class' => \rebellionsoftware\awsserverlessimagehandler\services\ImageHandlerService::class],
+            ],
+        ];
     }
 }
