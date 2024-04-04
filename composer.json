@@ -1,40 +1,59 @@
 {
-  "name": "rebellionagency/aws-serverless-image-handler",
-  "description": "Integrates the AWS Serverless Image Handler CDN platform into Craft CMS.",
+  "name": "richrawlings/craft-aws-serverless-image-handler",
+  "description": "Integrates the AWS Serverless Image Handler CDN platform into Craft CMS for supercharged image manipulation and delivery.",
   "type": "craft-plugin",
   "version": "1.0.0",
   "keywords": [
-    "craft",
+    "assets",
+    "amazon",
+    "aws",
+    "cdn",
     "cms",
+    "craft",
     "craftcms",
     "craft-plugin",
-    "aws",
-    "serverless",
-    "cdn",
+    "face-recognition",
     "images",
-    "assets"
+    "serverless",
+    "thumbnails"
   ],
   "support": {
-    "docs": "https://rebellion.agency/craft-cms/plugins/aws-serverless-image-handler/docs",
-    "issues": "https://github.com/rebellionagency/aws-craft-serverless-image-handler/issues"
+    "docs": "https://github.com/richrawlings/craft-aws-serverless-image-handler/wiki/Documentation",
+    "issues": "https://github.com/richrawlings/craft-aws-craft-serverless-image-handler/issues"
   },
   "license": "proprietary",
   "authors": [
     {
-      "name": "Rebellion Software",
-      "homepage": "https://rebellion.agency/craft-cms"
+      "name": "Richard Rawlings",
+      "homepage": "https://richardrawlings.com"
     }
   ],
   "require": {
-    "craftcms/cms": "^4.0.0"
+    "php": "^8.0.2",
+    "craftcms/cms": "^4.0.0-beta.1|^5.0.0-beta.1",
+    "aws/aws-sdk-php": "^3.303"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main",
+    "craftcms/rector": "dev-main"
   },
   "autoload": {
     "psr-4": {
-      "rebellionagency\\awsserverlessimagehandler\\": "src/"
+      "richrawlings\\awsserverlessimagehandler\\": "src/"
     }
   },
   "extra": {
     "name": "AWS Serverless Image Handler",
     "handle": "aws-serverless-image-handler"
+  },
+  "config": {
+    "platform": {
+      "php": "8.0.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
   }
 }

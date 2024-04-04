@@ -11,19 +11,15 @@
  * @see https://docs.aws.amazon.com/solutions/latest/serverless-image-handler/solution-overview.html
  * @see https://sharp.pixelplumbing.com/
  *
- * @author    Rebellion Software <support@rebellion.agency>
- * @link      https://rebellion.agency/
- * @copyright Copyright (c) 2024 Rebellion Software
+ * @author    Richard Rawlings <rich.rawlings@gmail.com>
+ * @copyright Copyright (c) 2024 Richard Rawlings
  */
 
-namespace rebellionagency\awsserverlessimagehandler;
+namespace richrawlings\awsserverlessimagehandler;
 
 use Craft;
 use craft\base\Model;
 use craft\web\twig\variables\CraftVariable;
-use rebellionagency\awsserverlessimagehandler\models\Settings;
-use rebellionagency\awsserverlessimagehandler\services\ImageHandlerService;
-use rebellionagency\awsserverlessimagehandler\twig\ImageHandlerExtension;
 use yii\base\Event;
 
 class Plugin extends \craft\base\Plugin
@@ -33,15 +29,16 @@ class Plugin extends \craft\base\Plugin
 
     public function init(): void
     {
+        parent::init();
+
         Craft::$app->onInit(function () {
 
-            parent::init();
-
             $this->setComponents([
-                'awsServerlessImageHandler' => ImageHandlerService::class,
+                'awsServerlessImageHandler' => \richrawlings\awsserverlessimagehandler\services\ImageHandlerService::class,
             ]);
 
-            $extension = new ImageHandlerExtension();
+            $extension = new \richrawlings\awsserverlessimagehandler\twig\ImageHandlerExtension();
+
             Craft::$app->getView()->registerTwigExtension($extension);
 
             Event::on(
@@ -49,16 +46,17 @@ class Plugin extends \craft\base\Plugin
                 CraftVariable::EVENT_INIT,
                 function (Event $e) {
                     $variable = $e->sender;
-                    $variable->set('awsServerlessImageHandler', ImageHandlerService::class);
+                    $variable->set('awsServerlessImageHandler', \richrawlings\awsserverlessimagehandler\services\ImageHandlerService::class);
                 }
             );
 
         });
+
     }
 
     protected function createSettingsModel(): ?Model
     {
-        return new Settings();
+        return new \richrawlings\awsserverlessimagehandler\models\Settings();
     }
 
     protected function settingsHtml(): ?string
@@ -73,7 +71,7 @@ class Plugin extends \craft\base\Plugin
     {
         return [
             'components' => [
-                'awsserverlessimagehandler' => ['class' => \rebellionsoftware\awsserverlessimagehandler\services\ImageHandlerService::class],
+                'awsserverlessimagehandler' => ['class' => \richrawlings\awsserverlessimagehandler\services\ImageHandlerService::class],
             ],
         ];
     }

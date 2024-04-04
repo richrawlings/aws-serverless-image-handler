@@ -1,6 +1,6 @@
 ## AWS Serverless Image Handler
 ##### CRAFT CMS PLUGIN
-###### Copyright © Rebellion Software (https://rebellion.agency)
+###### Copyright © Richard Rawlings <rich.rawlings@gmail.com>
 
 ---
 
@@ -31,6 +31,6 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 
 Need help?
 
-- [Read the docs](https://rebellion.agency/craft-cms/plugins/serverless-image-handler/docs)
-- [Report an issue](https://github.com/rebellionagency/serverless-image-handler/issues)
-- [Contact support](mailto:support@rebellion.agency?subject=Serverless Image Handler plugin)
+- [Read the docs](https://github.com/richrawlings/craft-aws-serverless-image-handler/wiki/Documentation)
+- [Report an issue](https://github.com/richrawlings/craft-aws-serverless-image-handler/issues)
+- [Contact support](mailto:rich.rawlings@gmail.com?subject=AWS Serverless Image Handler plugin)

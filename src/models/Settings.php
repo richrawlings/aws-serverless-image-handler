@@ -1,6 +1,6 @@
 <?php
 
-namespace rebellionagency\awsserverlessimagehandler\models;
+namespace richrawlings\awsserverlessimagehandler\models;
 
 use craft\base\Model;
 

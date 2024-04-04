@@ -1,75 +1,102 @@
 <?php
 
-namespace rebellionagency\awsserverlessimagehandler\services;
+namespace richrawlings\awsserverlessimagehandler\services;
 
 use craft\elements\Asset;
-use yii\base\Component;
 use craft\helpers\App;
+use yii\base\Component;
 
 class ImageHandlerService extends Component
 {
+    use ImageHandlerBlur;
+    use ImageHandlerClahe;
+    use ImageHandlerEnsureAlpha;
+    use ImageHandlerExtend;
+    use ImageHandlerExtract;
+    use ImageHandlerExtractChannel;
+    use ImageHandlerFlatten;
+    use ImageHandlerFlip;
+    use ImageHandlerFlop;
+    use ImageHandlerGamma;
+    use ImageHandlerGrayscale;
+    use ImageHandlerMedian;
+    use ImageHandlerModulate;
+    use ImageHandlerNegate;
+    use ImageHandlerNormalise;
+    use ImageHandlerPipelineColourspace;
+    use ImageHandlerRemoveAlpha;
+    use ImageHandlerResize;
+    use ImageHandlerRotate;
+    use ImageHandlerSharpen;
+    use ImageHandlerThreshold;
+    use ImageHandlerTint;
+    use ImageHandlerToColourspace;
+    use ImageHandlerTrim;
+    use ImageHandlerUnflatten;
 
-    public function resize(Asset $asset = null, int $width = null, int $height = null, array $options = []): string
+    public string $cloudFrontDistributionId;
+    public string $cloudFrontDomain;
+    public string $s3Bucket;
+
+    public Asset $asset;
+    public array $edits = [];
+
+    public function __construct(array $config = [])
     {
-        if (!$asset instanceof Asset) {
+        $plugin = \richrawlings\awsserverlessimagehandler\Plugin::getInstance();
+
+        $this->cloudFrontDistributionId = App::parseEnv($plugin->getSettings()->cloudFrontDistributionId);
+        $this->cloudFrontDomain = App::parseEnv($plugin->getSettings()->cloudFrontDomain);
+        $this->s3Bucket = App::parseEnv($plugin->getSettings()->s3Bucket);
+
+        parent::__construct($config);
+    }
+
+    public function cloudFrontUrl(Asset $asset = null): string
+    {
+        if (!$asset) {
             return '';
         }
 
-        if (!$width && !$height) {
-            return $asset->url;
-        }
+        $this->asset = $asset;
 
-        if ($width && $height) {
-            $edits = [
-                'resize' => [
-                    'width' => $width,
-                    'height' => $height,
-                ],
-            ];
-        }
+        return $this->prepareUrl();
+    }
 
-        if ($width && !$height) {
-            $edits = [
-                'resize' => [
-                    'width' => $width,
-                ],
-            ];
-        }
-
-        if ($height && !$width) {
-            $edits = [
-                'resize' => [
-                    'height' => $height,
-                ],
-            ];
-        }
-
-        if ($options) {
-            if (isset($options['fit'])) {
-                $edits['resize']['options']['fit'] = $options['fit'];
-            }
-            if (isset($options['position'])) {
-                $edits['resize']['options']['position'] = $options['position'];
-            }
-        }
-
-        if (!$edits) {
-            return $asset->url;
-        }
+    public function prepareUrl(): string
+    {
+//                dd($this->edits);
 
         $config = [
-            'bucket' => App::parseEnv(\rebellionagency\awsserverlessimagehandler\Plugin::getInstance()->getSettings()->s3Bucket),
-            'key' => $asset->volume->fsHandle . '/' . $asset->path,
-            'edits' => $edits,
+            'bucket' => $this->s3Bucket,
+            'key' => $this->asset->volume->fsHandle . '/' . $this->asset->path,
+            'edits' => $this->edits,
         ];
 
         $urlParts[] = 'https://';
-        $urlParts[] = App::parseEnv(\rebellionagency\awsserverlessimagehandler\Plugin::getInstance()->getSettings()->cloudFrontDomain);
-        $urlParts[] = '.cloudfront.net';
-        $urlParts[] = '/';
+        $urlParts[] = $this->cloudFrontDomain;
+        $urlParts[] = '.cloudfront.net/';
         $urlParts[] = base64_encode(json_encode($config));
 
         return implode('', $urlParts);
+    }
+
+    public function prepareEdits(string $root, array $allowedOptions, $options)
+    {
+        foreach ($allowedOptions as $allowedOption) {
+
+            if (isset($options[$allowedOption])) {
+                $this->edits[$root][$allowedOption] = $options[$allowedOption];
+            }
+
+            if (str_starts_with($allowedOption, 'options.')) {
+                $option = str_replace('options.', '', $allowedOption);
+                if (isset($options['options'][$option])) {
+                    $this->edits[$root]['options'][$option] = $options['options'][$option];
+                }
+            }
+
+        }
     }
 
 }
