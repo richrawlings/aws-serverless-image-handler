@@ -72,9 +72,34 @@ Using environment variables is recommended.
 
 ---
 
+## Usage
+
+This plugin provides a suite of twig functions that generate encoded CloudFront URLs on the fly with your chosen image transformations baked in. Images are immediately saved to (and served from) AWS edge server for optimum performance.
+
+Multiple functions can be chained to produce complex transformations in a single action e.g. `resize` -> `rotate` -> `grayscale` -> `sharpen`.
+
+The last function in the chain **MUST** be the `cloudFrontUrl` function. Pass your Craft asset to this function, for example:
+
+##
+
+```
+{% for article in craft.entries().section('blog').all() %}
+    {% set image = article.image.one() %}
+    <img src="{{ craft.awsServerlessImageHandler.resize(600).rotate(45).grayscale().sharpen().cloudFrontUrl(image} }}"
+{% endfor %}
+```
+
+##
+
+If anything other than an asset object is passed to `cloudFrontUrl`, an empty string will be returned.
+
+##
+
+---
+
 ## Support
 
-I will provide support on plugin usage but cannot provide support with setting up Serverless Image Handler on AWS. If you run into problems let me know and I will try to help if time permits, but may need to refer you to AWS support.
+Support on plugin usage will be provided (open an issue) but I cannot provide support with setting up Serverless Image Handler, your S3 bucket security, or anything relating to AWS. If you run into problems let me know and I will try to help, but may need to refer you to AWS support.
 
 ##
 

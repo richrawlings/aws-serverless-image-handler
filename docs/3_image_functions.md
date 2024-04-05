@@ -2,141 +2,113 @@
 
 ---
 
-## Blur
+## tint()
 
-An intro here
+Tint the image using the provided colour. An alpha channel may be present and will be preserved.
 
-Examples
+#### Options
+
+| Option | Type | Description        |
+|:-------|:----:|:-------------------|
+| red    | int  | Red colour value   |
+| green  | int  | Green colour value |
+| blue   | int  | Blue colour value  |
+
+##
+
+#### Example: Tint an image red
+
+```
+{{ craft.awsServerlessImageHandler.tint(255, 0, 0).cloudFrontUrl(image) }}
+```
 
 ##
 
 ---
 
-## CLAHE
+## greyscale()
 
-An intro here
+Convert to 8-bit greyscale; 256 shades of grey. If the input image is in a non-linear colour space such as sRGB, use gamma() with greyscale() for the best results.
 
-Examples
+##
+
+#### Example: Default function spelling
+
+```
+{{ craft.awsServerlessImageHandler.greyscale().cloudFrontUrl(image) }}
+```
+
+##
+
+#### Example: Alternative function spelling
+
+```
+{{ craft.awsServerlessImageHandler.grayscale().cloudFrontUrl(image) }}
+```
 
 ##
 
 ---
 
-## Flatten
+## pipelineColourspace()
 
-An intro here
+Set the pipeline colourspace.
 
-Examples
+The input image will be converted to the provided colourspace at the start of the pipeline. All operations will use this colourspace before converting to the output colourspace, as defined by `toColourspace`. **Experimental**.
+
+#### Options
+
+| Option      |  Type  | Description                                         |
+|:------------|:------:|:----------------------------------------------------|
+| colourspace | string | Pipeline colourspace e.g. `rgb16`, `scrgb`, `lab`, `grey16` |
+
+##
+
+#### Example: Set pipeline colourspace to `grey16`
+
+```
+{{ craft.awsServerlessImageHandler.pipelineColourspace('grey16').cloudFrontUrl(image) }}
+```
+
+##
+
+#### Example: Alternative function spelling
+
+```
+{{ craft.awsServerlessImageHandler.pipelineColorspace('grey16').cloudFrontUrl(image) }}
+```
 
 ##
 
 ---
 
-## Flip
+## toColourspace()
 
-An intro here
+Set the output colourspace. By default output image will be web-friendly sRGB, with additional channels interpreted as alpha channels.
 
-Examples
+#### Options
 
-##
-
----
-
-## Flop
-
-An intro here
-
-Examples
+| Option      |  Type  | Description                                               |
+|:------------|:------:|:----------------------------------------------------------|
+| colourspace | string | Output colourspace e.g. `rgb16`, `scrgb`, `lab`, `grey16` |
 
 ##
 
----
+#### Example: Set output colourspace to `rgb16`
 
-## Gamma
-
-An intro here
-
-Examples
+```
+{{ craft.awsServerlessImageHandler.toColourspace('rgb16').cloudFrontUrl(image) }}
+```
 
 ##
 
----
+#### Example: Alternative function spelling
 
-## Median
+```
+{{ craft.awsServerlessImageHandler.toColorspace('rgb16').cloudFrontUrl(image) }}
+```
 
-An intro here
 
-Examples
-
-##
-
----
-
-## Modulate
-
-An intro here
-
-Examples
-
-##
-
----
-
-## Negate
-
-An intro here
-
-Examples
-
-##
-
----
-
-## Normalise
-
-An intro here
-
-Examples
-
-##
-
----
-
-## Rotate
-
-An intro here
-
-Examples
-
-##
-
----
-
-## Sharpen
-
-An intro here
-
-Examples
-
-##
-
----
-
-## Threshold
-
-An intro here
-
-Examples
-
-##
-
----
-
-## Unflatten
-
-An intro here
-
-Examples
 
 ##
 
