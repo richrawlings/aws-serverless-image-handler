@@ -4,7 +4,7 @@
 
 ## faces()
 
-Automatically detect and crop faces using Amazon Rekognition.
+Automatically detect and crop faces using Amazon Rekognition. Be sure to read the [AWS documentation](https://aws.amazon.com/rekognition/pricing/) regarding the pricing of Amazon Rekognition.
 
 #### Options
 

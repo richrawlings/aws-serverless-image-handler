@@ -5,31 +5,39 @@ namespace richrawlings\awsserverlessimagehandler\services;
 trait ImageHandlerResize
 {
 
-    private array $allowedOptionsResize = [
-        'width',
-        'height',
-        'options.width',
-        'options.height',
-        'options.fit',
-        'options.position',
-        'options.background',
-        'options.kernel',
-        'options.withoutEnlargement',
-        'options.withoutReduction',
-        'options.fastShrinkOnLoad',
-    ];
-
-    public function resize(int $width = null, int $height = null, array $options = []): static
+    public function resize(int $width = null, int $height = null, string $fit = null, string $position = null, $background = null, string $kernel = null, bool $withoutEnlargement = null, bool $withoutReduction = null, bool $fastShrinkOnLoad = null): static
     {
-        if ($width && !isset($options['width'])) {
-            $options['width'] = $width;
+        if ($width) {
+            $this->edits['resize']['width'] = $width;
         }
 
-        if ($height && !isset($options['height'])) {
-            $options['height'] = $height;
+        if ($height) {
+            $this->edits['resize']['height'] = $height;
         }
 
-        $this->prepareEdits('resize', $this->allowedOptionsResize, $options);
+        if ($fit) {
+            $this->edits['resize']['fit'] = $fit;
+        }
+
+        if ($position) {
+            $this->edits['resize']['position'] = $position;
+        }
+
+        if ($background) {
+            $this->edits['resize']['background'] = $background;
+        }
+
+        if ($kernel) {
+            $this->edits['resize']['kernel'] = $kernel;
+        }
+
+        if ($withoutEnlargement) {
+            $this->edits['resize']['withoutEnlargement'] = $withoutEnlargement;
+        }
+
+        if ($withoutReduction) {
+            $this->edits['resize']['withoutReduction'] = $withoutReduction;
+        }
 
         return $this;
     }

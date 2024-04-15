@@ -4,9 +4,28 @@
 
 ## Extract
 
-An intro here
+Extract / crop a region of the image.
 
-Examples
+- Use extract before resize for pre-resize extraction.
+- Use extract after resize for post-resize extraction.
+- Use extract twice and resize once for extract-then-resize-then-extract in a fixed operation order.
+
+#### Options
+
+| Option | Type | Description                 |
+|:-------|:----:|:----------------------------|
+| left   | int  | Offset from left edge       |
+| top    | int  | Offset from top edge        |
+| width  | int  | Width of region to extract  |
+| height | int  | Height of region to extract |
+
+##
+
+#### Example: Extract a 100x100 portion of an image, 20 pixels from the top left
+
+```
+{{ craft.awsServerlessImageHandler.extract(20, 20, 100, 100).cloudFrontUrl(image) }}
+```
 
 ##
 
@@ -14,9 +33,39 @@ Examples
 
 ## Extend
 
-An intro here
+Extend / pad / extrude one or more edges of the image with either the provided background colour or pixels derived from the image. This operation will always occur after resizing and extraction, if any.
 
-Examples
+#### Options
+
+| Option     |      Type       | Description                                                                                                     |
+|:-----------|:---------------:|:----------------------------------------------------------------------------------------------------------------|
+| top        |       int       | Optional: Top padding in pixels (defaults to `0`)                                                               |
+| left       |       int       | Optional: Left padding in pixels (defaults to `0`)                                                              |
+| bottom     |       int       | Optional: Bottom padding in pixels (defaults to `0`)                                                            |
+| right      |       int       | Optional: Right padding in pixels (defaults to `0`)                                                             |
+| extendWith |     string      | Optional: Populate new pixels using one of: `background`, `copy`, `repeat`, `mirror` (defaults to `background`) |
+| background | string / object | Optional: Background colour (defaults to black with no transparency e.g. `{r: 0, g: 0, b: 0, alpha: 1}` )       |
+
+##
+
+#### Example: Resize to 140 pixels wide, then add 10 transparent pixels to the top, left and right edges and 20 to the bottom edge
+
+```
+{{ craft.awsServerlessImageHandler.resize(140).extend(10, 10, 20, 10, {
+    r: 0,
+    g: 0,
+    b: 0,
+    alpha: 0
+}).cloudFrontUrl(image) }}
+```
+
+##
+
+#### Example: Add a row of 10 red pixels to the bottom
+
+```
+{{ craft.awsServerlessImageHandler.extend(null, null, 10, null, 'red').cloudFrontUrl(image) }}
+```
 
 ##
 
@@ -88,7 +137,7 @@ If the result of this operation would trim an image to nothing then no change is
 | Option     |      Type       | Description                                                                                           |
 |:-----------|:---------------:|:------------------------------------------------------------------------------------------------------|
 | background | string / object | Optional: Background colour (defaults to the top-left pixel)                                          |
-| threshold  |       int       | Optional: Allowed difference from the above colour, a positive number (defaults to 10)                |
+| threshold  |       int       | Optional: Allowed difference from the above colour, a positive number (defaults to `10`)              |
 | lineArt    |      bool       | Optional: Does the input more closely resemble line art (e.g. vector) rather than being photographic? |
 
 ##
