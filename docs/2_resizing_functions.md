@@ -101,7 +101,6 @@ Refer to the [Sharp documentation](https://sharp.pixelplumbing.com/api-resize#re
 | kernel             |     string      | Optional: The kernel to use for image reduction                                                                                                                   |
 | withoutEnlargement |      bool       | Optional: Do not scale up if the width or height are already less than the target dimensions                                                                      |
 | withoutReduction   |      bool       | Optional: Do not scale down if the width or height are already greater than the target dimensions                                                                 |
-| fastShrinkOnLoad   |      bool       | Optional: Take greater advantage of the JPEG and WebP shrink-on-load feature, which can lead to a slight moiré pattern or round-down of an auto-scaled dimension. |
 
 ##
 
