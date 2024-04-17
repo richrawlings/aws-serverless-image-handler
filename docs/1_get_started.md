@@ -74,7 +74,7 @@ Using environment variables is recommended.
 
 ## Usage
 
-This plugin provides a suite of twig functions that generate encoded CloudFront URLs on the fly with your chosen image transformations baked in. Images are immediately saved to (and served from) AWS edge server for optimum performance.
+This plugin provides a suite of twig functions that generate encoded CloudFront URLs on the fly with your chosen image transformations baked in. Images are immediately saved to (and served from) AWS edge server for optimum performance..
 
 Multiple functions can be chained to produce complex transformations in a single action e.g. `resize` -> `rotate` -> `grayscale` -> `sharpen`.
 
