@@ -3,7 +3,7 @@
 
 <br>
 
-# Get started
+## Get started
 
 - [Read the docs](https://github.com/richrawlings/craft-aws-serverless-image-handler/wiki/Documentation)
 - [Report an issue](https://github.com/richrawlings/craft-aws-serverless-image-handler/issues)
