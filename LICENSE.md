@@ -1,8 +1,7 @@
-## AWS Serverless Image Handler
-##### CRAFT CMS PLUGIN
+## AWS Serverless Image Handler for Craft CMS
 ###### Copyright © Richard Rawlings <rich.rawlings@gmail.com>
 
----
+<br>
 
 # License
 
@@ -23,14 +22,3 @@ Permission is hereby granted to any person obtaining a copy of this software (th
 Failure to comply with the foregoing conditions will automatically and immediately result in termination of the permission granted hereby. This license does not include any right to receive updates to the Software or technical support. Licensees bear all risk related to the quality and performance of the Software and any modifications made or obtained to it, including liability for actual and consequential harm, such as loss or corruption of data, and any necessary service, repair, or correction.
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, INCLUDING SPECIAL, INCIDENTAL AND CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-##
-
----
-
-
-Need help?
-
-- [Read the docs](https://github.com/richrawlings/craft-aws-serverless-image-handler/wiki/Documentation)
-- [Report an issue](https://github.com/richrawlings/craft-aws-serverless-image-handler/issues)
-- [Contact support](mailto:rich.rawlings@gmail.com?subject=AWS Serverless Image Handler plugin)
