@@ -19,8 +19,13 @@ namespace richrawlings\awsserverlessimagehandler;
 
 use Craft;
 use craft\base\Model;
+use craft\helpers\App;
+use craft\services\Elements;
 use craft\web\twig\variables\CraftVariable;
 use yii\base\Event;
+
+use Aws\Exception\AwsException;
+use Aws\CloudFront\CloudFrontClient;
 
 class Plugin extends \craft\base\Plugin
 {
@@ -50,6 +55,36 @@ class Plugin extends \craft\base\Plugin
                 }
             );
 
+            Event::on(
+                Elements::class,
+                Elements::EVENT_AFTER_DELETE_ELEMENT,
+                static function (Event $e) {
+
+                    Craft::info($e->data, 'RICH WOZ HERE');
+
+//                    $distributionId = App::parseEnv($this->getSettings()->cloudFrontDistributionId);
+//                    $callerReference = md5(microtime());
+//                    $paths = ['/*'];
+//                    $quantity = 1;
+//
+//                    $cloudFrontClient = new CloudFrontClient([
+//                        'profile' => 'default',
+//                        'version' => '2018-06-18',
+//                        'region' => 'us-east-1'
+//                    ]);
+//
+//                    $invalidationStatus = $this->createCloudFrontInvalidation(
+//                        $cloudFrontClient,
+//                        $distributionId,
+//                        $callerReference,
+//                        $paths,
+//                        $quantity
+//                    );
+
+//                    Craft::info('Cloudfront invalidation after asset delete | ' . $invalidationStatus, 'AWS Serverless Image Handler');
+                }
+            );
+
         });
 
     }
@@ -75,4 +110,27 @@ class Plugin extends \craft\base\Plugin
             ],
         ];
     }
+
+    protected function createCloudFrontInvalidation($cloudFrontClient, $distributionId, $callerReference, $paths, $quantity)
+    {
+        try {
+
+            $result = $cloudFrontClient->createInvalidation([
+                'DistributionId' => $distributionId,
+                'InvalidationBatch' => [
+                    'CallerReference' => $callerReference,
+                    'Paths' => [
+                        'Items' => $paths,
+                        'Quantity' => $quantity,
+                    ],
+                ]
+            ]);
+
+            return 'Status: OK';
+
+        } catch (AwsException $e) {
+            return 'Status: Error | Reason: ' . $e->getAwsErrorMessage();
+        }
+    }
+
 }
