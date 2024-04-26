@@ -3,8 +3,10 @@
 
 <br>
 
-### Release Notes
+## Release Notes
 
-## 1.0.0 - 2024-18-04
+<br>
+
+**1.0.0 - 2024-18-04**
 
 - Initial release
