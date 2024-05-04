@@ -65,8 +65,6 @@ class ImageHandlerService extends Component
 
     public function prepareUrl(): string
     {
-//                dd($this->edits);
-
         $config = [
             'bucket' => $this->s3Bucket,
             'key' => $this->asset->volume->fsHandle . '/' . $this->asset->path,
@@ -78,25 +76,10 @@ class ImageHandlerService extends Component
         $urlParts[] = '.cloudfront.net/';
         $urlParts[] = base64_encode(json_encode($config));
 
+        // Reset edits (important)
+        $this->edits = [];
+
         return implode('', $urlParts);
-    }
-
-    public function prepareEdits(string $root, array $allowedOptions, $options)
-    {
-        foreach ($allowedOptions as $allowedOption) {
-
-            if (isset($options[$allowedOption])) {
-                $this->edits[$root][$allowedOption] = $options[$allowedOption];
-            }
-
-            if (str_starts_with($allowedOption, 'options.')) {
-                $option = str_replace('options.', '', $allowedOption);
-                if (isset($options['options'][$option])) {
-                    $this->edits[$root]['options'][$option] = $options['options'][$option];
-                }
-            }
-
-        }
     }
 
 }

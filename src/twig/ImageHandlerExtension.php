@@ -12,7 +12,6 @@ class ImageHandlerExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-
             // Resizing
             new TwigFunction('extract', [ImageHandlerService::class, 'extract']),
             new TwigFunction('extend', [ImageHandlerService::class, 'extend']),
